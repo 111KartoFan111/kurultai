@@ -10,12 +10,12 @@ CREATE OR REPLACE FUNCTION register_user(
 BEGIN
     -- Проверяем, существует ли уже пользователь с таким email
     IF EXISTS (SELECT 1 FROM Users WHERE email = p_email) THEN
-        RETURN 'Пользователь с таким email уже существует';
+        RETURN 0;
     ELSE
         -- Если email не найден, добавляем нового пользователя
         INSERT INTO Users (username, email, phone_number, password_hash)
         VALUES (p_username, p_email, p_phone_number, p_password_hash);
-        RETURN 'Регистрация успешна';
+        RETURN 1;
     END IF;
 END;
 $$ LANGUAGE plpgsql;
@@ -38,9 +38,9 @@ BEGIN
     WHERE username = p_username AND password_hash = p_password_hash;
     -- Если совпадение найдено
     IF user_count > 0 THEN
-        RETURN 'Вход выполнен успешно';
+        RETURN 0;
     ELSE
-        RETURN 'Неверное имя пользователя или пароль';
+        RETURN 1;
     END IF;
 END;
 $$ LANGUAGE plpgsql;
@@ -61,7 +61,7 @@ BEGIN
     IF FOUND THEN
         RETURN role;
     ELSE
-        RETURN 'Неверное имя пользователя или пароль';
+        RETURN 0;
     END IF;
 END;
 $$ LANGUAGE plpgsql;
