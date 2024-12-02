@@ -5,6 +5,11 @@ CREATE TABLE Users (
     email VARCHAR(100) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     full_name VARCHAR(100),
+    gender VARCHAR(10),
+    phone_number VARCHAR(15),
+    group_num VARCHAR(50),
+    date_of_birth DATE,
+    last_active TIMESTAMP,
     role VARCHAR(20) DEFAULT 'user', -- user, admin, etc.
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     is_active BOOLEAN DEFAULT TRUE
@@ -88,6 +93,44 @@ CREATE TABLE PasswordResetTokens (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Таблица игр
+CREATE TABLE Games (
+    game_id SERIAL PRIMARY KEY,
+    topic VARCHAR(255) NOT NULL,
+    max_participants INT NOT NULL,
+    game_date DATE NOT NULL,
+    game_time TIME NOT NULL,
+    location VARCHAR(255) NOT NULL,
+    league_id INT REFERENCES Tournaments(tournament_id) ON DELETE SET NULL,
+    judge_id INT REFERENCES Users(user_id) ON DELETE SET NULL,
+    winner_team_id INT REFERENCES Teams(team_id) ON DELETE SET NULL,
+    is_finished BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Таблица лиг
+
+CREATE TABLE Leagues (
+    league_id SERIAL PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL
+);
+
+INSERT INTO Leagues (name)
+VALUES ('russian'), ('kazakh'), ('english');
+
+ALTER TABLE Games
+ADD CONSTRAINT fk_league
+FOREIGN KEY (league_id) REFERENCES Leagues(league_id)
+ON DELETE SET NULL;
+
+-- Таблица регистарции на мероприятия
+CREATE TABLE EventRegistrations (
+    registration_id SERIAL PRIMARY KEY,
+    event_id INT REFERENCES Events(event_id) ON DELETE CASCADE,
+    user_id INT REFERENCES Users(user_id) ON DELETE CASCADE,
+    team_id INT REFERENCES Teams(team_id) ON DELETE SET NULL,
+    registered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 -- Индексы для улучшения производительности
 --CREATE INDEX idx_users_email ON Users(email);
 --CREATE INDEX idx_notifications_user_id ON Notifications(user_id);
