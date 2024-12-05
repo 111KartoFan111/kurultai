@@ -78,3 +78,65 @@ my_flask_app/
 ├── .env                      # Переменные окружения
 └── wsgi.py                   # Точка входа для WSGI-сервера
 ```
+
+
+
+```
+заполнение отчета админ
+
+
+from flask import Flask, render_template, request
+import sqlite3
+
+app = Flask(__name__)
+
+# SQLite database setup
+DATABASE = 'league_data.db'
+
+# Function to connect to the SQLite database
+def get_db():
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+# Initialize the database and create the table
+def init_db():
+    with get_db() as conn:
+        conn.execute('''
+            CREATE TABLE IF NOT EXISTS leagues (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                liga TEXT NOT NULL,
+                team_count INTEGER NOT NULL,
+                location TEXT NOT NULL,
+                judge TEXT NOT NULL,
+                victory TEXT NOT NULL
+            )
+        ''')
+        conn.commit()
+
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+@app.route("/save", methods=["POST"])
+def save_data():
+    liga = request.form.get("liga")
+    team_count = request.form.get("team_count")
+    location = request.form.get("location")
+    judge = request.form.get("judge")
+    victory = request.form.get("victory")
+    
+    with get_db() as conn:
+        conn.execute('''
+            INSERT INTO leagues (liga, team_count, location, judge, victory)
+            VALUES (?, ?, ?, ?, ?)
+        ''', (liga, team_count, location, judge, victory))
+        conn.commit()
+    
+    message = "Данные успешно сохранены!"
+    return render_template("index.html", message=message)
+
+if __name__ == "__main__":
+    init_db()  # Initialize the database when starting the application
+    app.run(debug=True)
+```
