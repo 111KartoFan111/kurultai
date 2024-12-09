@@ -20,7 +20,6 @@ my_flask_app/
 │   ├── profile_routes.py     # Личный кабинет
 │   ├── report_routes.py      # Маршруты для отчетов
 ├── templates/                # Шаблоны (рендеринг на сервере)
-│   ├── base.html             # Базовый шаблон
 │   ├── auth/
 │   │   ├── login.html        # Страница логина
 │   │   ├── register.html     # Страница регистрации
@@ -67,8 +66,6 @@ my_flask_app/
 │   ├── img/                  # Изображения
 │   │   ├── logo.png
 │   │   ├── background.jpg
-│   └── fonts/                # Шрифты
-│       └── custom-font.woff
 ├── migrations/               # Миграции базы данных
 │   ├── versions/             # Файлы миграций
 │   └── alembic.ini           # Конфигурация Alembic
