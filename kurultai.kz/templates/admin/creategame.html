@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Kurultay</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@600&display=swap" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Italiana:wght@400&display=swap" />
+        <link rel="stylesheet" href="{{url_for('static',filename='css/creategame.css')}}" />
+    </head>
+    <body>
+        <div class="main-container">
+            <div class="scrollable">
+            <form method="POST" action="{{ url_for('create_game') }}">
+                <!-- events-->
+                <div class="section">
+                    <div class="section-2">
+                        <div class="section-3">
+                            <div class="pic"></div>
+                            <span class="text">Тема игры</span>
+                        </div>
+                        <div class="section-4">
+                            <div class="box">
+                                <div class="section-5">
+                                    <input type="text" class="input-field" name="topic" placeholder="Введите тему игры" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section-6">
+                        <div class="group">
+                            <div class="pic-2"></div>
+                            <span class="text-4">Количество участников</span>
+                        </div>
+                        <input type="range" id="progressBar" name="max_participants" value="1" max="100" step="1" oninput="updateProgress()" />
+                        <span id="progressValue">1</span>
+                    </div>
+                    <script>
+                        function updateProgress() {
+                            var progress = document.getElementById("progressBar");
+                            var value = progress.value;
+                            document.getElementById("progressValue").textContent = value;
+                        }
+                    </script>
+                    <div class="group-3">
+                        <div class="box-3">
+                            <div class="img-2"></div>
+                            <span class="text-7">Дата</span>
+                        </div>
+                        <div class="wrapper">
+                            <div class="group-4">
+                                <div class="group-5">
+                                    <input type="date" class="time" name="game_date" id="datePicker" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-4">
+                        <div class="section-a">
+                            <div class="img-3"></div>
+                            <span class="text-9">Время</span>
+                        </div>
+                        <div class="group-6">
+                            <div class="group-7">
+                                <div class="section-b">
+                                    <input type="time" name="game_time" id="timePicker" class="time" min="09:00" max="18:00" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-5">
+                        <div class="wrapper-2">
+                            <div class="img-4"></div>
+                            <span class="text-c">Место проведения</span>
+                        </div>
+                        <div class="group-8">
+                            <div class="group-9">
+                                <input type="text" class="input-field" name="location" placeholder="Введите место проведения игры" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wrapper-3">
+                        <div class="section-d">
+                            <div class="img-5"></div>
+                            <span class="text-f">Судья</span>
+                        </div>
+                        <div class="box-6">
+                            <div class="box-7">
+                                <div class="input-wrapper">
+                                    <input type="text" class="input-field" name="judge_id" placeholder="Введите ID судьи" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section-e">
+                        <div class="section-f">
+                            <div class="img-6"></div>
+                            <span class="text-12">Выберите лигу</span>
+                        </div>
+                        <div class="section-10">
+                            <div class="section-11">
+                                <select name="league_id" class="input-field" required>
+                                    {% for league in leagues %}
+                                        <option value="{{ league.league_id }}">{{ league.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-8">
+                        <button type="submit" class="group-a">
+                            <div class="text-17">Сохранить</div>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            </div>
+            <div class="wrapper-6">
+                <div class="box-9">
+                    <div class="section-14">
+                        {% for event in events %}
+                        <div class="box-a">
+                            <div class="section-15">
+                                <span class="text-18">{{ event.date }}</span>
+                                <span class="text-19">{{ event.time }}</span>
+                            </div>
+                            <span class="text-1a">{{ event.topic }}</span>
+                            <div class="section-16">
+                                <span class="text-1b">{{ event.location }}</span>
+                                <div class="group-b">
+                                    <span class="text-1c">Количество участников:</span>
+                                    <span class="text-1d">{{ event.participants }}</span>
+                                </div>
+                                <div class="section-17">
+                                    <span class="text-1e">Судья:</span>
+                                    <span class="text-1f">{{ event.judge }}</span>
+                                </div>
+                                <div class="group-c">
+                                    <div class="wrapper-7">
+                                        <button onclick="handleSave()" class="wrapper-8">
+                                            <div class="text-20">Изменить</div>
+                                        </button>
+                                    </div>
+                                    <div class="wrapper-9">
+                                        <button onclick="handleDelete()" class="group-d">
+                                            <div class="text-21">Удалить</div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- sidebar-->
+                <div class="section-18">
+                    <span class="text-22">Kurultay </span>
+                    <div class="box-b">
+                        <a href="/" class="wrapper-a">
+                            <div class="box-c"></div>
+                            <div class="box-d"><div class="img-8"></div></div>
+                            <span class="text-23">Профиль</span>
+                        </a>
+                        <a href="creategame" class="section-19">
+                            <div class="wrapper-b"></div>
+                            <div class="group-e"><div class="pic-5"></div></div>
+                            <span class="text-24">Создать игру</span>
+                        </a>
+                        <a href="usermanage" class="section-1a">
+                            <div class="box-e"></div>
+                            <div class="group-f">
+                                <div class="section-1b"><div class="pic-6"></div></div>
+                            </div>
+                            <span class="text-25">Управление участниками</span>
+                        </a>
+                        <a href="newevent" class="group-10">
+                            <div class="wrapper-c"></div>
+                            <div class="wrapper-d"><div class="img-9"></div></div>
+                            <span class="text-26">Назначить мероприятие</span>
+                        </a>
+                        <a href="adminreports" class="group-11">
+                            <div class="box-f"></div>
+                            <div class="box-10"><div class="img-a"></div></div>
+                            <span class="text-27">Отчёты </span>
+                        </a>
+                    </div>
+                    <div class="img-b"></div>
+                    {% for user in users %}
+                    <div class="wrapper-e">
+                        <div class="person-info">
+                            <span class="text-28">{{ user[0] }}</span>
+                        </div>
+                        <div class="person-info">
+                            <span class="text-29">{{ user[1] }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div class="pic-7"></div>
+                </div>
+                <!-- endsidebar-->
+            </div>
+        </div>
+    </body>
+    <script>
+        function handleDelete() {
+            // Логика для удаления
+            alert("Удалено!");
+        }
+            function handleSave() {
+                // Логика для удаления
+                alert("Сохранено!");
+            }
+    </script>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Kurultay</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;900&display=swap" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Italiana:wght@400&display=swap" />
+        <link rel="stylesheet" href="{{url_for('static',filename='css/adminprofile.css')}}" />
+    </head>
+    <body>
+        <div class="main-container">
+            <div class="wrapper">
+                <div class="section">
+                    {% for user in users %}
+                    <div class="section-2">
+                        <div class="img"></div>
+                        <div class="wrapper-2">
+                            <div class="group">
+                                <span class="text">Группа</span
+                                ><span class="text-2">{{ user.group_num }}</span>
+                            </div>
+                            <div class="wrapper-3"></div>
+                        </div>
+                        <div class="box">
+                            <span class="text-3">My email Address</span>
+                            <div class="box-2">
+                                <div class="pic"></div>
+                                <div class="box-3">
+                                    <span class="text-4">{{ user.email }}</span
+                                    ><span class="text-5">{{ user.last_active }}</span>
+                                </div>
+                                <div class="section-3">
+                                    <div class="section-4"><div class="pic-2"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wrapper-4"></div>
+                        <div class="wrapper-5">
+                            <div class="section-5">
+                                <span class="text-6">{{ user.username }}</span
+                                ><span class="text-7">{{ user.email }}</span>
+                            </div>
+                        </div>
+                        <div class="wrapper-6">
+                            <span class="text-8">Reset password</span>
+                            <div class="group-2"></div>
+                        </div>
+                        <div class="group-3">
+                            <span class="text-9">Edit</span>
+                            <div class="box-4"></div>
+                        </div>
+                        <div class="wrapper-7">
+                            <span class="text-a">Полное имя</span>
+                            <div class="group-4"></div>
+                            <span class="text-b">{{ user.full_name }}</span>
+                        </div>
+                        <div class="section-6">
+                            <span class="text-c">Логин</span>
+                            <div class="group-5"></div>
+                            <span class="text-d">{{ user.username }}</span>
+                        </div>
+                        <div class="group-6">
+                            <div class="box-5">
+                                <span class="text-e">Пол</span
+                                ><span class="text-f">{{ user.gender }}</span>
+                            </div>
+                            <div class="section-7"></div>
+                        </div>
+                        <div class="section-8">
+                            <span class="text-10">Номер телефона</span>
+                            <div class="box-6"></div>
+                            <span class="text-11">{{ user.phone_number }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="wrapper-8">
+                <div class="box-7">
+                    <span class="text-12">Kurultay </span>
+                    <div class="group-7">
+                        <a href="/" class="section-9">
+                            <div class="group-8"></div>
+                            <div class="section-a"><div class="img-2"></div></div>
+                            <div class="text-13">Профиль</div>
+                        </a>
+                        <a href="creategame" class="group-9">
+                            <div class="section-b"></div>
+                            <div class="section-c"><div class="img-3"></div></div>
+                            <div class="text-14">Создать игру</div>
+                        </a>
+                        <a href="usermanage" class="section-d">
+                            <div class="group-a"></div>
+                            <div class="group-b">
+                                <div class="wrapper-9"><div class="img-4"></div></div>
+                            </div>
+                            <span class="text-15">Управление учасниками</span>
+                        </a>
+                        <a href="newevent class="box-8">
+                            <div class="wrapper-a"></div>
+                            <div class="group-c"><div class="img-5"></div></div>
+                            <span class="text-16">Назначить мероприятие</span>
+                        </a>
+                        <a href="adminreports" class="section-e">
+                            <div class="group-d"></div>
+                            <div class="wrapper-b"><div class="pic-3"></div></div>
+                            <span class="text-17">Отчёты </span>
+                        </a>
+                    </div>
+                    <div class="pic-4"></div>
+                    {% for user in users %}
+                    <div class="section-f">
+                        <div class="person-info">
+                            <span class="text-18">{{ user[0] }}</span>
+                        </div>
+                        <div class="person-info">
+                            <span class="text-19">{{ user[1] }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div class="pic-5"></div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

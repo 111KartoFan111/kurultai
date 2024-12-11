@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Kurultay</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Italiana:wght@400&display=swap" />
+        <link rel="stylesheet" href="{{url_for('static',filename='css/usermanage.css')}}" />
+    </head>
+    <body>
+        <div class="main-container">
+            <div class="box"></div>
+            <div class="group">
+                <span class="text">Kurultay </span>
+                <div class="wrapper">
+                    <a href="/" class="wrapper-2">
+                        <div class="group-2"></div>
+                        <div class="section"><div class="img"></div></div>
+                        <span class="text-2">Профиль</span>
+                    </a>
+                    <a href="creategame" class="section-2">
+                        <div class="section-3"></div>
+                        <div class="wrapper-3"><div class="img-2"></div></div>
+                        <span class="text-3">Создать игру</span>
+                    </a>
+                    <a href="usermanage" class="section-4">
+                        <div class="group-3"></div>
+                        <div class="section-5">
+                            <div class="section-6"><div class="pic"></div></div>
+                        </div>
+                        <span class="text-4">Управление участниками</span>
+                    </a>
+                    <a href="newevent" class="group-4">
+                        <div class="wrapper-4"></div>
+                        <div class="box-2"><div class="img-3"></div></div>
+                        <span class="text-5">Назначить мероприятие</span>
+                    </a>
+                    <a href="adminreports" class="wrapper-5">
+                        <div class="box-3"></div>
+                        <div class="wrapper-6"><div class="img-4"></div></div>
+                        <span class="text-6">Отчёты </span>
+                    </a>
+                </div>
+                <div class="section-7"></div>
+                {%for user in users%}
+                <div class="group-5">
+                    <div class="pic-2"></div>
+                    <div class="section-8">
+                        <span class="text-7">{{user[0]}} </span
+                        ><span class="text-8">{{user[1]}}</span>
+                    </div>
+                    <div class="pic-3"></div>
+                </div>
+                {%endfor%}
+            </div>
+            <div class="wrapper-7">
+                <div class="section-9">
+                    <div class="group-6">
+                        <div class="section-a">
+                            <span class="text-9">Последний вход</span>
+                            <div class="section-b">
+                                <span class="text-a">Роль</span>
+                                <span class="text-b">Ранг</span>
+                            </div>
+                        </div>
+                        <span class="text-c">Name</span>
+                    </div>
+                    <div class="section-c">
+                        {% for user in users %}
+                        <input type="checkbox" class="section-d"></input>
+                        <div class="section-e">
+                            <span class="text-d">{{user.username}}</span
+                            ><span class="text-e">{{user.email}}</span>
+                        </div>
+                        <span class="text-f">{{user.last_active}}</span
+                        ><span class="text-10">{{user.role}}</span
+                        ><span class="text-11">{{user.rank}}</span>
+                        {% endfor %}
+                        <div class="group-7">
+                            <div class="img-5"></div>
+                            <div class="pic-4"></div>
+                            <div class="pic-5"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
