@@ -183,6 +183,18 @@ ADD CONSTRAINT fk_league_tournaments
 
 
 
+
+
+
+INSERT INTO Users (username, email, password_hash, full_name, gender, phone_number, group_num, date_of_birth, role)
+VALUES ('john_doe', 'john.doe@example.com', 'hashed_password_here', 'John Doe', 'Male', '123-456-7890', 'A1', '1990-05-15', 'user');
+INSERT INTO Events (name, description, event_date, location, created_by)
+VALUES ('Winter Tournament', 'A tournament for winter sports.', '2024-12-10', 'Stadium A', 1);
+INSERT INTO Tournaments (name, description, start_date, end_date)
+VALUES ('Ice Hockey Championship', 'Ice Hockey Tournament for best teams', '2024-12-11', '2024-12-15');
+INSERT INTO Games (topic, max_participants, game_date, game_time, location, tournament_id)
+VALUES ('Quarterfinals', 4, '2024-12-12', '14:00:00', 'Stadium A', 1);
+
 Users — хранит информацию о пользователях.
 UsersRank — хранит информацию о рангах пользователей.
 Tournaments — хранит информацию о турнирах.
