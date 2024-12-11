@@ -178,3 +178,28 @@ ALTER ROLE "Dionysius" WITH SUPERUSER;
 ALTER ROLE "KartoFan" WITH SUPERUSER;
 ALTER ROLE "mortualin" WITH SUPERUSER;
 ALTER ROLE "Anek" WITH SUPERUSER;
+
+
+
+
+
+-- Добавление столбца tournament_id в таблицу games
+ALTER TABLE games
+ADD COLUMN tournament_id INT,
+ADD CONSTRAINT fk_tournament
+    FOREIGN KEY (tournament_id) REFERENCES tournaments(tournament_id) 
+    ON DELETE SET NULL;
+
+-- Добавление столбца league_id в таблицу games
+ALTER TABLE games
+ADD COLUMN league_id INT,
+ADD CONSTRAINT fk_league_games
+    FOREIGN KEY (league_id) REFERENCES leagues(league_id)
+    ON DELETE SET NULL;
+
+-- Добавление столбца league_id в таблицу tournaments
+ALTER TABLE tournaments
+ADD COLUMN league_id INT,
+ADD CONSTRAINT fk_league_tournaments
+    FOREIGN KEY (league_id) REFERENCES leagues(league_id)
+    ON DELETE SET NULL;
