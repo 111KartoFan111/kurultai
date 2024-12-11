@@ -136,3 +136,13 @@ if __name__ == "__main__":
     init_db()  # Initialize the database when starting the application
     app.run(debug=True)
 ```
+
+
+
+
+```
+
+pip install Flask-SQLAlchemy
+
+```
+
