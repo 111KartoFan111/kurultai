@@ -1,4 +1,4 @@
--- Таблица user
+-- Таблица пользователей
 CREATE TABLE Users (
     user_id SERIAL PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
@@ -10,12 +10,12 @@ CREATE TABLE Users (
     group_num VARCHAR(50),
     date_of_birth DATE,
     last_active TIMESTAMP,
-    role VARCHAR(20) DEFAULT 'user', -- user, admin, etc.
+    role VARCHAR(20) DEFAULT 'user',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     is_active BOOLEAN DEFAULT TRUE
 );
 
--- Таблица рангов userov
+-- Таблица рангов пользователей
 CREATE TABLE UsersRank (
     rank_id SERIAL PRIMARY KEY,
     user_id INT REFERENCES Users(user_id) ON DELETE CASCADE,
@@ -33,63 +33,10 @@ CREATE TABLE Tournaments (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Таблица команды
+-- Таблица команд
 CREATE TABLE Teams (
     team_id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Таблица матчей
-CREATE TABLE Matches (
-    match_id SERIAL PRIMARY KEY,
-    tournament_id INT REFERENCES Tournaments(tournament_id) ON DELETE CASCADE,
-    team1_id INT REFERENCES Teams(team_id) ON DELETE SET NULL,
-    team2_id INT REFERENCES Teams(team_id) ON DELETE SET NULL,
-    match_date TIMESTAMP NOT NULL,
-    location VARCHAR(255)
-);
-
--- Таблица результатов
-CREATE TABLE Results (
-    result_id SERIAL PRIMARY KEY,
-    match_id INT REFERENCES Matches(match_id) ON DELETE CASCADE,
-    team_id INT REFERENCES Teams(team_id) ON DELETE CASCADE,
-    score INT NOT NULL
-);
-
--- Таблица мероприятий
-CREATE TABLE Events (
-    event_id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    description TEXT,
-    event_date TIMESTAMP NOT NULL,
-    location VARCHAR(255),
-    created_by INT REFERENCES Users(user_id) ON DELETE SET NULL
-);
-
--- Таблица уведомлений
-CREATE TABLE Notifications (
-    notification_id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES Users(user_id) ON DELETE CASCADE,
-    message TEXT NOT NULL,
-    is_read BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Связь пользователей и команд
-CREATE TABLE UserTeams (
-    user_team_id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES Users(user_id) ON DELETE CASCADE,
-    team_id INT REFERENCES Teams(team_id) ON DELETE CASCADE
-);
-
--- Таблица для хранения токенов восстановления паролей
-CREATE TABLE PasswordResetTokens (
-    token_id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES Users(user_id) ON DELETE CASCADE,
-    token VARCHAR(255) UNIQUE NOT NULL,
-    expires_at TIMESTAMP NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -101,29 +48,25 @@ CREATE TABLE Games (
     game_date DATE NOT NULL,
     game_time TIME NOT NULL,
     location VARCHAR(255) NOT NULL,
-    league_id INT REFERENCES Tournaments(tournament_id) ON DELETE SET NULL,
     judge_id INT REFERENCES Users(user_id) ON DELETE SET NULL,
     winner_team_id INT REFERENCES Teams(team_id) ON DELETE SET NULL,
     is_finished BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    tournament_id INT REFERENCES Tournaments(tournament_id) ON DELETE SET NULL
+);
+
+-- Таблица событий
+CREATE TABLE Events (
+    event_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    event_date TIMESTAMP NOT NULL,
+    location VARCHAR(255),
+    created_by INT REFERENCES Users(user_id) ON DELETE SET NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Таблица лиг
-
-CREATE TABLE Leagues (
-    league_id SERIAL PRIMARY KEY,
-    name VARCHAR(50) UNIQUE NOT NULL
-);
-
-INSERT INTO Leagues (name)
-VALUES ('russian'), ('kazakh'), ('english');
-
-ALTER TABLE Games
-ADD CONSTRAINT fk_league
-FOREIGN KEY (league_id) REFERENCES Leagues(league_id)
-ON DELETE SET NULL;
-
--- Таблица регистарции на мероприятия
+-- Таблица регистраций на события
 CREATE TABLE EventRegistrations (
     registration_id SERIAL PRIMARY KEY,
     event_id INT REFERENCES Events(event_id) ON DELETE CASCADE,
@@ -131,6 +74,40 @@ CREATE TABLE EventRegistrations (
     team_id INT REFERENCES Teams(team_id) ON DELETE SET NULL,
     registered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Таблица результатов (если нужно хранить результаты матчей)
+CREATE TABLE Results (
+    result_id SERIAL PRIMARY KEY,
+    game_id INT REFERENCES Games(game_id) ON DELETE CASCADE,
+    team_id INT REFERENCES Teams(team_id) ON DELETE CASCADE,
+    score INT NOT NULL
+);
+
+-- Таблица лиг
+CREATE TABLE Leagues (
+    league_id SERIAL PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL
+);
+
+-- Таблица уведомлений
+CREATE TABLE Notifications (
+    notification_id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES Users(user_id) ON DELETE CASCADE,
+    message TEXT NOT NULL,
+    is_read BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Таблица уведомлений о событиях
+CREATE TABLE EventNotifications (
+    notification_id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES Users(user_id) ON DELETE CASCADE,
+    event_id INT REFERENCES Events(event_id) ON DELETE CASCADE,
+    message TEXT NOT NULL,
+    is_read BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Индексы для улучшения производительности
 --CREATE INDEX idx_users_email ON Users(email);
 --CREATE INDEX idx_notifications_user_id ON Notifications(user_id);
