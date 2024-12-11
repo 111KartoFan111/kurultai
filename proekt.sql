@@ -180,3 +180,17 @@ ADD COLUMN league_id INT,
 ADD CONSTRAINT fk_league_tournaments
     FOREIGN KEY (league_id) REFERENCES leagues(league_id)
     ON DELETE SET NULL;
+
+
+
+Users — хранит информацию о пользователях.
+UsersRank — хранит информацию о рангах пользователей.
+Tournaments — хранит информацию о турнирах.
+Teams — хранит информацию о командах.
+Games — хранит информацию о играх, включая победителя, дату и время игры.
+Events — хранит информацию о событиях.
+EventRegistrations — хранит информацию о регистрации пользователей и команд на события.
+Results — хранит информацию о результатах игр.
+Leagues — хранит информацию о лигах.
+Notifications — хранит общие уведомления для пользователей.
+EventNotifications — хранит уведомления, связанные с конкретными событиями.
