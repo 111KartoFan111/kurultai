@@ -236,4 +236,18 @@ class EventNotification(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 ```
 
+```
+-- Добавляем колонку для 1-го спикера и связываем с users.user_id
+ALTER TABLE teams 
+ADD COLUMN speaker_1 INT,
+ADD CONSTRAINT fk_speaker_1 FOREIGN KEY (speaker_1) REFERENCES users(user_id) ON DELETE SET NULL;
 
+-- Добавляем колонку для 2-го спикера и связываем с users.user_id
+ALTER TABLE teams 
+ADD COLUMN speaker_2 INT,
+ADD CONSTRAINT fk_speaker_2 FOREIGN KEY (speaker_2) REFERENCES users(user_id) ON DELETE SET NULL;
+
+-- Добавляем колонку для очков команды
+ALTER TABLE teams 
+ADD COLUMN team_points INT DEFAULT 0;
+```
