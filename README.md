@@ -1,42 +1,42 @@
 ```
 my_flask_app/
-├── app.py                    # Главный файл приложения
-├── config.py                 # Настройки приложения
-├── extensions.py             # Подключение расширений (SQLAlchemy)
-├── models.py                 # ORM-модели для базы данных
-├── templates/                # Шаблоны (рендеринг на сервере)
+├── app.py                     Главный файл приложения
+├── config.py                  Настройки приложения
+├── extensions.py              Подключение расширений (SQLAlchemy)
+├── models.py                  ORM-модели для базы данных
+├── templates/                 Шаблоны (рендеринг на сервере)
 │   ├── auth/
-│   │   ├── login.html        # Страница входа
-│   │   ├── register.html     # Страница регистрации
-│   ├── admin/                # Шаблоны для админ панели
-│   │   ├── apminprofile.html    # Панель администратора
-│   │   ├── newgame.html      # Создание игры
-│   │   ├── usermanage.html   # Управление пользователями
-│   │   ├── newevent.html     # Создание мероприятия
-│   │   ├── adminreports.html # Отчеты
-│   ├── user/                 # Шаблоны для пользовательской панели
-│   │   ├── userprofile.html      # Личный кабинет пользователя
-│   │   ├── newcommand.html   # Создание команды
-│   │   ├── events.html       # Список мероприятий
-│   │   ├── userreports.html  # Отчеты
-├── static/                   # Статические файлы (CSS, JS, изображения)
+│   │   ├── login.html         Страница входа
+│   │   ├── register.html      Страница регистрации
+│   ├── admin/                 Шаблоны для админ панели
+│   │   ├── apminprofile.html     Панель администратора
+│   │   ├── newgame.html       Создание игры
+│   │   ├── usermanage.html    Управление пользователями
+│   │   ├── newevent.html      Создание мероприятия
+│   │   ├── adminreports.html  Отчеты
+│   ├── user/                  Шаблоны для пользовательской панели
+│   │   ├── userprofile.html       Личный кабинет пользователя
+│   │   ├── newcommand.html    Создание команды
+│   │   ├── events.html        Список мероприятий
+│   │   ├── userreports.html   Отчеты
+├── static/                    Статические файлы (CSS, JS, изображения)
 │   ├── css/
-│   │   ├── login.css # Стили для страницы входа
-│   │   ├── login.css # Стили для страницы регистрации
-│   │   ├── admin/            # Стили для админ панели
-│   │   │   ├── adminprofile.css # Стили для страницы панели администратора
-│   │   │   ├── newgame.css   # Стили для страницы создания игры
-│   │   │   ├── usermanage.css # Стили для страницы управления пользователями
-│   │   │   ├── newevent.css  # Стили для страницы создания мероприятия
-│   │   │   ├── adminreports.css   # Стили для страницы отчетов
-│   │   ├── user/             # Стили для пользовательской панели
-│   │   │   ├── userprofile.css   # Стили для страницы профиля пользователя
-│   │   │   ├── teams.css    # Стили для страницы создания команды
-│   │   │   ├── events.css        # Стили для страницы мероприятий
-│   │   │   └── reports.css       # Стили для страницы отчетов
-│   ├── img/                  # Изображения
-├── README.md                 # Документация
-├── requirements.txt          # Зависимости Python
+│   │   ├── login.css  Стили для страницы входа
+│   │   ├── login.css  Стили для страницы регистрации
+│   │   ├── admin/             Стили для админ панели
+│   │   │   ├── adminprofile.css  Стили для страницы панели администратора
+│   │   │   ├── newgame.css    Стили для страницы создания игры
+│   │   │   ├── usermanage.css  Стили для страницы управления пользователями
+│   │   │   ├── newevent.css   Стили для страницы создания мероприятия
+│   │   │   ├── adminreports.css    Стили для страницы отчетов
+│   │   ├── user/              Стили для пользовательской панели
+│   │   │   ├── userprofile.css    Стили для страницы профиля пользователя
+│   │   │   ├── teams.css     Стили для страницы создания команды
+│   │   │   ├── events.css         Стили для страницы мероприятий
+│   │   │   └── reports.css        Стили для страницы отчетов
+│   ├── img/                   Изображения
+├── README.md                  Документация
+├── requirements.txt           Зависимости Python
 ```
 
 
@@ -50,16 +50,16 @@ import sqlite3
 
 app = Flask(__name__)
 
-# SQLite database setup
+ SQLite database setup
 DATABASE = 'league_data.db'
 
-# Function to connect to the SQLite database
+ Function to connect to the SQLite database
 def get_db():
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     return conn
 
-# Initialize the database and create the table
+ Initialize the database and create the table
 def init_db():
     with get_db() as conn:
         conn.execute('''
@@ -97,7 +97,7 @@ def save_data():
     return render_template("index.html", message=message)
 
 if __name__ == "__main__":
-    init_db()  # Initialize the database when starting the application
+    init_db()   Initialize the database when starting the application
     app.run(debug=True)
 ```
 
